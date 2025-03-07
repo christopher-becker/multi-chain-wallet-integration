@@ -11,6 +11,8 @@ body {
   padding: 0;
   margin: 0;
   cursor: default;
+  background: #060014;
+  color: #fff;
 }
 
 button,
@@ -19,5 +21,5 @@ a {
 }
 
 .btn-primary {
-  @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded;
+  @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded transition-all;
 }

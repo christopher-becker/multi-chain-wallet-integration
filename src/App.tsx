@@ -1,42 +1,33 @@
-import WalletBalance from "./components/wallet/WalletBalance";
-import { useWalletConnection } from "./core/hooks/useWalletConnection";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import SolanaWallet from "./components/wallet/SolanaWallet";
+import WagmiWallet from "./components/wallet/WagmiWallet";
+import { useMemo } from "react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { clusterApiUrl } from "@solana/web3.js";
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 
 function App() {
-  const { connect, disconnect, isConnected, address, connectors } =
-    useWalletConnection();
+  const network = WalletAdapterNetwork.Mainnet;
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-  const renderWalletContent = () => {
-    if (!isConnected) {
-      return (
-        <>
-          {connectors.map((connector) => (
-            <button
-              key={connector.id}
-              onClick={() => connect({ connector })}
-              type="button"
-              className="btn-primary"
-            >
-              {connector.name}
-            </button>
-          ))}
-        </>
-      );
-    }
-    return (
-      <>
-        <p>{address}</p>
-        <WalletBalance />
-        <button className="btn-primary" onClick={() => disconnect()}>
-          Disconnect Wallet
-        </button>
-      </>
-    );
-  };
+  const wallets = useMemo(
+    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    []
+  );
   return (
-    <>
-      <h1 className="text-4xl">multi-chain-wallet-integration</h1>
-      {renderWalletContent()}
-    </>
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+        <h1 className="text-4xl">multi-chain-wallet-integration</h1>
+        <WagmiWallet />
+        <SolanaWallet />
+      </WalletProvider>
+    </ConnectionProvider>
   );
 }
 
