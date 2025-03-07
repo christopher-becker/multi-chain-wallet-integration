@@ -1,11 +1,41 @@
-import useWalletStore from "./core/stores/store";
+import WalletBalance from "./components/wallet/WalletBalance";
+import { useWalletConnection } from "./core/hooks/useWalletConnection";
 
 function App() {
-  const { address } = useWalletStore((state) => state);
+  const { connect, disconnect, isConnected, address, connectors } =
+    useWalletConnection();
+
+  const renderWalletContent = () => {
+    if (!isConnected) {
+      return (
+        <>
+          {connectors.map((connector) => (
+            <button
+              key={connector.id}
+              onClick={() => connect({ connector })}
+              type="button"
+              className="btn-primary"
+            >
+              {connector.name}
+            </button>
+          ))}
+        </>
+      );
+    }
+    return (
+      <>
+        <p>{address}</p>
+        <WalletBalance />
+        <button className="btn-primary" onClick={() => disconnect()}>
+          Disconnect Wallet
+        </button>
+      </>
+    );
+  };
   return (
     <>
       <h1 className="text-4xl">multi-chain-wallet-integration</h1>
-      <p>{address ?? "No Account Yet."}</p>
+      {renderWalletContent()}
     </>
   );
 }
