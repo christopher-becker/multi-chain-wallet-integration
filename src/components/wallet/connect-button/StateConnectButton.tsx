@@ -1,9 +1,11 @@
+import { IconType } from "react-icons/lib";
+
 type StateConnectionButtonProps = {
   isConnected: boolean;
   address: string | null;
   openModal: (data: boolean) => void;
   disconnect: () => void;
-  coinIcon: any;
+  coinIcon: React.ReactNode;
 };
 
 export default function StateConnectButton(props: StateConnectionButtonProps) {

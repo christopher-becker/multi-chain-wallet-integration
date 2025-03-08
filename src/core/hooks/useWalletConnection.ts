@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {
   useAccount,
   useBalance,
-  UseBalanceParameters,
+  UseBalanceReturnType,
   useConnect,
   useDisconnect,
 } from "wagmi";
@@ -11,11 +11,11 @@ import { Connector } from "wagmi";
 import { Address } from "viem";
 
 interface WalletConnectionHook {
-  connect: (connector?: any) => void;
+  connect: (connector?: Connector) => void;
   disconnect: () => void;
   isConnected: boolean;
   address: Address | null;
-  balance: UseBalanceParameters;
+  balance: UseBalanceReturnType;
   connectors: readonly Connector[];
   error: Error | null;
   status: "pending" | "error" | "idle" | "success";
