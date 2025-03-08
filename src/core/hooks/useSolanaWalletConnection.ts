@@ -8,7 +8,7 @@ interface SolanaWalletHook {
   isConnected: boolean;
   address: string | null;
   balance: number | null;
-  status: string;
+  status: "connected" | "disconnected";
   wallets: { adapter: { name: WalletName } }[];
 }
 
@@ -33,6 +33,7 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
     try {
       select(walletName);
       await connect();
+      return;
     } catch (error) {
       console.error(error);
     }

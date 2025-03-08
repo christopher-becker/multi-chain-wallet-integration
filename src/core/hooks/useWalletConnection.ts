@@ -18,11 +18,12 @@ interface WalletConnectionHook {
   balance: UseBalanceParameters;
   connectors: readonly Connector[];
   error: Error | null;
+  status: "pending" | "error" | "idle" | "success";
 }
 
 export function useWalletConnection(): WalletConnectionHook {
   const { address, isConnected } = useAccount();
-  const { connect, connectors, error } = useConnect();
+  const { connect, connectors, error, status } = useConnect();
   const { disconnect } = useDisconnect();
   const setAddress = useWalletStore((state) => state.setAddress);
 
@@ -48,5 +49,6 @@ export function useWalletConnection(): WalletConnectionHook {
     balance,
     connectors,
     error,
+    status,
   };
 }

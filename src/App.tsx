@@ -2,8 +2,6 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import SolanaWallet from "./components/wallet/SolanaWallet";
-import WagmiWallet from "./components/wallet/WagmiWallet";
 import { useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl } from "@solana/web3.js";
@@ -11,6 +9,16 @@ import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
+import { createMemoryRouter, RouterProvider } from "react-router";
+import HomePage from "./pages/HomePage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+const routes = [
+  { path: "/", element: <HomePage /> },
+  { path: "*", element: <NotFoundPage /> },
+];
+
+const router = createMemoryRouter(routes);
 
 function App() {
   const network = WalletAdapterNetwork.Mainnet;
@@ -23,9 +31,7 @@ function App() {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <h1 className="text-4xl">multi-chain-wallet-integration</h1>
-        <WagmiWallet />
-        <SolanaWallet />
+        <RouterProvider router={router} />
       </WalletProvider>
     </ConnectionProvider>
   );
