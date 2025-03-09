@@ -12,7 +12,7 @@ export default function WagmiWallet() {
           {connectors.map((connector) => (
             <button
               key={connector.id}
-              onClick={() => connect({ connector })}
+              onClick={() => connect(connector)}
               type="button"
               className="btn-primary"
             >

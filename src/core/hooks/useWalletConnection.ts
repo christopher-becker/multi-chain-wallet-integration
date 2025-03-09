@@ -11,7 +11,7 @@ import { Connector } from "wagmi";
 import { Address } from "viem";
 
 interface WalletConnectionHook {
-  connect: (connector?: Connector) => void;
+  connect: (connector: Connector) => void;
   disconnect: () => void;
   isConnected: boolean;
   address: Address | null;
@@ -23,7 +23,7 @@ interface WalletConnectionHook {
 
 export function useWalletConnection(): WalletConnectionHook {
   const { address, isConnected } = useAccount();
-  const { connect, connectors, error, status } = useConnect();
+  const { connect: wagmiConnect, connectors, error, status } = useConnect();
   const { disconnect } = useDisconnect();
   const setAddress = useWalletStore((state) => state.setAddress);
 
@@ -41,7 +41,7 @@ export function useWalletConnection(): WalletConnectionHook {
   }, [address, isConnected, setAddress]);
 
   return {
-    connect,
+    connect: (connector: Connector) => wagmiConnect({ connector }),
     disconnect,
     isConnected,
     address: address ?? null,
