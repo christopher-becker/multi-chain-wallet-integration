@@ -1,5 +1,3 @@
-import { IconType } from "react-icons/lib";
-
 type StateConnectionButtonProps = {
   isConnected: boolean;
   address: string | null;

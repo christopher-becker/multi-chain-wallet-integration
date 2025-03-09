@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletName } from "@solana/wallet-adapter-base";
 
 interface SolanaWalletHook {
@@ -15,8 +15,7 @@ interface SolanaWalletHook {
 export function useSolanaWalletConnection(): SolanaWalletHook {
   const { publicKey, connected, connect, disconnect, wallets, select } =
     useWallet();
-  const { connection } = useConnection();
-  const [balance, setBalance] = useState<number | null>(null);
+  const [balance, _] = useState<number | null>(null);
 
   // Re-Visit check balance
   // useEffect(() => {
