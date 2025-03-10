@@ -1,8 +1,14 @@
 import { useSolanaWalletConnection } from "../../core/hooks/useSolanaWalletConnection";
 
 export default function SolanaWallet() {
-  const { connectWallet, disconnect, isConnected, address, wallets } =
-    useSolanaWalletConnection();
+  const {
+    connectWallet,
+    disconnect,
+    isConnected,
+    address,
+    wallets,
+    connecting,
+  } = useSolanaWalletConnection();
 
   const renderWalletContent = () => {
     if (!isConnected) {
@@ -38,7 +44,7 @@ export default function SolanaWallet() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2>Connect Solana</h2>
+      <h2>{connecting ? "Connecting..." : "Connect"} Solana</h2>
       {renderWalletContent()}
     </div>
   );

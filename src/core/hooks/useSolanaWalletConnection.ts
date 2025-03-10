@@ -5,6 +5,7 @@ import useStore from "../stores/store";
 import { Connection } from "@solana/web3.js";
 
 interface SolanaWalletHook {
+  connecting: boolean;
   connectWallet: (walletName: WalletName) => Promise<void>;
   disconnect: () => void;
   isConnected: boolean;
@@ -15,8 +16,16 @@ interface SolanaWalletHook {
 }
 
 export function useSolanaWalletConnection(): SolanaWalletHook {
-  const { publicKey, connected, connect, disconnect, wallets, select, wallet } =
-    useWallet();
+  const {
+    publicKey,
+    connected,
+    connect,
+    disconnect,
+    wallets,
+    select,
+    wallet,
+    connecting,
+  } = useWallet();
   const { fetchChains, setConnectedChains, removeConnectedChain } = useStore();
   const connectedChains = useStore((state) => state.connectedChains);
   const [balance, setBalance] = useState<number | null>(null);
@@ -68,6 +77,7 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   };
 
   return {
+    connecting,
     connectWallet,
     disconnect,
     isConnected: connected,

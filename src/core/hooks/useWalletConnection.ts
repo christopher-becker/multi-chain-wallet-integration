@@ -11,6 +11,7 @@ import { Address } from "viem";
 import useStore from "../stores/store";
 
 interface WalletConnectionHook {
+  isPending: boolean;
   connect: (connector: Connector) => void;
   disconnect: () => void;
   isConnected: boolean;
@@ -23,7 +24,13 @@ interface WalletConnectionHook {
 
 export function useWalletConnection(): WalletConnectionHook {
   const { address, isConnected } = useAccount();
-  const { connect: wagmiConnect, connectors, error, status } = useConnect();
+  const {
+    connect: wagmiConnect,
+    connectors,
+    error,
+    status,
+    isPending,
+  } = useConnect();
   const { disconnect } = useDisconnect();
   const { fetchChains, setConnectedChains, connectedChains } = useStore();
 
@@ -48,6 +55,7 @@ export function useWalletConnection(): WalletConnectionHook {
   }, [connectedChains]);
 
   return {
+    isPending,
     connect: (connector: Connector) => wagmiConnect({ connector }),
     disconnect,
     isConnected,

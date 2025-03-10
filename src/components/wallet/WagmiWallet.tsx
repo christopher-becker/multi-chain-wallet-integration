@@ -4,7 +4,7 @@ import ImageWithFallback from "../image/image-with-fallback";
 import WalletBalance from "./WalletBalance";
 
 export default function WagmiWallet() {
-  const { connect, disconnect, isConnected, address, connectors } =
+  const { connect, disconnect, isConnected, address, connectors, isPending } =
     useWalletConnection();
 
   const renderWalletContent = () => {
@@ -43,7 +43,7 @@ export default function WagmiWallet() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2>Connect Ethereum</h2>
+      <h2>{isPending ? "Connecting..." : "Connect"} Ethereum</h2>
       {renderWalletContent()}
     </div>
   );
