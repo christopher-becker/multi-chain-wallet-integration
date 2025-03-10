@@ -10,7 +10,7 @@ import {
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/home-page/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import GetStartedPage from "./pages/GetStartedPage";
 

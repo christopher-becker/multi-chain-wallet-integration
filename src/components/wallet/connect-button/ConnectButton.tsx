@@ -8,15 +8,20 @@ import WalletBalance from "../WalletBalance";
 export default function ConnectButton() {
   const { setIsWagmiOptionsModalVisible, setIsSolanaOptionsModalVisible } =
     useModalStore((store) => store);
+
+  // ETHEREUM Connection
   const { isConnected, address, disconnect } = useWalletConnection();
+
+  // SOLANA Connection
   const {
     isConnected: isSolanaConnected,
     address: solanaAddress,
     disconnect: solanaDisconnect,
     balance: solanaBalance,
   } = useSolanaWalletConnection();
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       {/* Wagmi Button State */}
       <StateConnectButton
         address={address}

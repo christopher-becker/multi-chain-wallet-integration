@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { ROUTES } from "../core/constants/routes.const";
-import GetStarted from "./wallet/get-started/GetStarted";
+import GetStarted from "./get-started/GetStarted";
+import { ROUTES } from "../../core/constants/routes.const";
 
 export default function Header() {
   return (

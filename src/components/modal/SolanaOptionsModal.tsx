@@ -13,7 +13,6 @@ export default function SolanaOptionsModal() {
   };
 
   useEffect(() => {
-    console.log(status);
     if (status === "connected") {
       handleCloseModal();
     }

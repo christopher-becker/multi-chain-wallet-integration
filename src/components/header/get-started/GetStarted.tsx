@@ -3,7 +3,7 @@ import { useWalletConnection } from "../../../core/hooks/useWalletConnection";
 import { ROUTES } from "../../../core/constants/routes.const";
 import { Link } from "react-router";
 import { SiEthereum, SiSolana } from "react-icons/si";
-import WalletIcon from "../WalletIcon";
+import WalletIcon from "../../wallet/WalletIcon";
 
 export default function GetStarted() {
   const { isConnected } = useWalletConnection();

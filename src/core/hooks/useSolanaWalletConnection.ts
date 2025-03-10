@@ -15,7 +15,7 @@ interface SolanaWalletHook {
 }
 
 export function useSolanaWalletConnection(): SolanaWalletHook {
-  const { publicKey, connected, connect, disconnect, wallets, select } =
+  const { publicKey, connected, connect, disconnect, wallets, select, wallet } =
     useWallet();
   const { fetchChains, setConnectedChains, removeConnectedChain } = useStore();
   const connectedChains = useStore((state) => state.connectedChains);
@@ -57,6 +57,9 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   const connectWallet = async (walletName: WalletName) => {
     try {
       select(walletName);
+      if (!wallet) {
+        return;
+      }
       await connect();
       return;
     } catch (error) {

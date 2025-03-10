@@ -10,16 +10,18 @@ export default function GetStartedPage() {
   const hasConnectedBefore = localStorage.getItem("APP_INIT_CONNECTED");
   return (
     <BasePage>
-      <h1 className="text-4xl mb-8">
-        {hasConnectedBefore
-          ? isConnected || isSolanaConnected
-            ? "You're Connected!"
-            : "Welcome back!"
-          : "Get Started"}
-      </h1>
-      <Suspense fallback={<>Loading ...</>}>
-        <ConnectButton />
-      </Suspense>
+      <div className="flex gap-12 items-center flex-col">
+        <h1 className="text-4xl">
+          {hasConnectedBefore
+            ? isConnected || isSolanaConnected
+              ? "You're connected!"
+              : "Connect again!"
+            : "Choose a chain"}
+        </h1>
+        <Suspense fallback={<>Loading ...</>}>
+          <ConnectButton />
+        </Suspense>
+      </div>
     </BasePage>
   );
 }
