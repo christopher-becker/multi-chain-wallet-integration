@@ -15,7 +15,7 @@ export default function StateConnectButton(props: StateConnectionButtonProps) {
   return (
     <>
       {props.isConnected && props.address ? (
-        <div className="flex flex-col gap-4 p-4 rounded-3xl bg-gray-900/50">
+        <div className="flex flex-col gap-4 p-4 rounded-3xl bg-gray-900/50 border border-white/5">
           <div className="flex gap-4 items-center">
             <WalletIcon>{props.coinIcon}</WalletIcon>
             {formatAddress(props.address)}
