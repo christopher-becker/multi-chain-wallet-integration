@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ConnectButton from "../components/wallet/connect-button/ConnectButton";
 import { useSolanaWalletConnection } from "../core/hooks/useSolanaWalletConnection";
 import { useWalletConnection } from "../core/hooks/useWalletConnection";
@@ -16,7 +17,9 @@ export default function GetStartedPage() {
             : "Welcome back!"
           : "Get Started"}
       </h1>
-      <ConnectButton />
+      <Suspense fallback={<>Loading ...</>}>
+        <ConnectButton />
+      </Suspense>
     </BasePage>
   );
 }

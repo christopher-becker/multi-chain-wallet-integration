@@ -13,6 +13,7 @@ export default function ConnectButton() {
     isConnected: isSolanaConnected,
     address: solanaAddress,
     disconnect: solanaDisconnect,
+    balance: solanaBalance,
   } = useSolanaWalletConnection();
   return (
     <div className="flex flex-col gap-4">
@@ -35,7 +36,7 @@ export default function ConnectButton() {
         disconnect={solanaDisconnect}
         openModal={setIsSolanaOptionsModalVisible}
         title={"Solana"}
-        balance="5"
+        balance={<>{solanaBalance ?? "Fetching balance ..."}</>}
       />
     </div>
   );
