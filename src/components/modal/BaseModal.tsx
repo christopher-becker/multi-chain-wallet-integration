@@ -13,7 +13,7 @@ export default function BaseModal(props: BaseModalProps) {
       <button
         onClick={props.handle}
         aria-label="Close modal"
-        className="fixed top-2 right-2"
+        className="fixed top-2 right-2 border-[2px] border-gray-600 hover:border-gray-100 rounded-full w-10 h-10"
       >
         ✕
       </button>

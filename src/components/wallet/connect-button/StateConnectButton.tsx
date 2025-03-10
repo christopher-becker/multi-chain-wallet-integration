@@ -8,18 +8,19 @@ type StateConnectionButtonProps = {
   disconnect: () => void;
   coinIcon: React.ReactNode;
   title: string;
+  balance: React.ReactNode;
 };
 
 export default function StateConnectButton(props: StateConnectionButtonProps) {
   return (
     <>
       {props.isConnected && props.address ? (
-        <div className="flex flex-col gap-4 p-4 rounded-3xl border border-gray-600">
+        <div className="flex flex-col gap-4 p-4 rounded-3xl bg-gray-900/50">
           <div className="flex gap-4 items-center">
             <WalletIcon>{props.coinIcon}</WalletIcon>
             {formatAddress(props.address)}
           </div>
-          <div>Balance: 0.5ETH</div>
+          <div>{props.balance}</div>
           <button
             className="btn-secondary justify-center"
             onClick={() => props.disconnect()}

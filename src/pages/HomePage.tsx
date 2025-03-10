@@ -1,9 +1,13 @@
 import BasePage from "./BasePage";
+import ChainList from "../components/chain/ChainList";
+import { Suspense } from "react";
 
 export default function HomePage() {
   return (
     <BasePage>
-      <h1 className="text-4xl">multi-chain-wallet-integration</h1>
+      <Suspense fallback={<>Loading ...</>}>
+        <ChainList />
+      </Suspense>
     </BasePage>
   );
 }

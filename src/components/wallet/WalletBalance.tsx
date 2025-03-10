@@ -8,5 +8,5 @@ export default function WalletBalance() {
   const formattedBalance = balance.data?.value
     ? formatEther(balance.data.value)
     : "0";
-  return <p>Balance: {formattedBalance} ETH</p>;
+  return <>{formattedBalance}</>;
 }

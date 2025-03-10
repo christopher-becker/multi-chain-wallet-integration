@@ -6,9 +6,9 @@ import {
   useConnect,
   useDisconnect,
 } from "wagmi";
-import useWalletStore from "../stores/store";
 import { Connector } from "wagmi";
 import { Address } from "viem";
+import useStore from "../stores/store";
 
 interface WalletConnectionHook {
   connect: (connector: Connector) => void;
@@ -25,7 +25,7 @@ export function useWalletConnection(): WalletConnectionHook {
   const { address, isConnected } = useAccount();
   const { connect: wagmiConnect, connectors, error, status } = useConnect();
   const { disconnect } = useDisconnect();
-  const setAddress = useWalletStore((state) => state.setAddress);
+  const { fetchChains, setConnectedChains, connectedChains } = useStore();
 
   const balance = useBalance({
     address: address ?? undefined,
@@ -36,10 +36,16 @@ export function useWalletConnection(): WalletConnectionHook {
 
   useEffect(() => {
     if (isConnected && address) {
-      setAddress(address);
+      setConnectedChains("EVM");
       localStorage.setItem("APP_INIT_CONNECTED", "TRUE");
+    } else {
+      useStore.getState().removeConnectedChain("EVM");
     }
-  }, [address, isConnected, setAddress]);
+  }, [address, isConnected]);
+
+  useEffect(() => {
+    fetchChains();
+  }, [connectedChains]);
 
   return {
     connect: (connector: Connector) => wagmiConnect({ connector }),

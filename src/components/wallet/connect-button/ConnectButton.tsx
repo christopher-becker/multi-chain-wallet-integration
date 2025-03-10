@@ -3,6 +3,7 @@ import { useWalletConnection } from "../../../core/hooks/useWalletConnection";
 import useModalStore from "../../../core/stores/modals.store";
 import { SiEthereum, SiSolana } from "react-icons/si";
 import StateConnectButton from "./StateConnectButton";
+import WalletBalance from "../WalletBalance";
 
 export default function ConnectButton() {
   const { setIsWagmiOptionsModalVisible, setIsSolanaOptionsModalVisible } =
@@ -23,6 +24,7 @@ export default function ConnectButton() {
         disconnect={disconnect}
         openModal={setIsWagmiOptionsModalVisible}
         title={"Ethereum"}
+        balance={<WalletBalance />}
       />
 
       {/* Solana Button State */}
@@ -33,6 +35,7 @@ export default function ConnectButton() {
         disconnect={solanaDisconnect}
         openModal={setIsSolanaOptionsModalVisible}
         title={"Solana"}
+        balance="5"
       />
     </div>
   );
