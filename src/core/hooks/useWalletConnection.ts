@@ -37,6 +37,7 @@ export function useWalletConnection(): WalletConnectionHook {
   useEffect(() => {
     if (isConnected && address) {
       setAddress(address);
+      localStorage.setItem("APP_INIT_CONNECTED", "TRUE");
     }
   }, [address, isConnected, setAddress]);
 

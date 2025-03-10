@@ -14,8 +14,13 @@ export default function WagmiWallet() {
               key={connector.id}
               onClick={() => connect(connector)}
               type="button"
-              className="btn-primary"
+              className="btn-secondary"
             >
+              <img
+                src={connector.icon}
+                alt={connector.name}
+                className="w-6 h-6"
+              />
               {connector.name}
             </button>
           ))}
@@ -23,19 +28,19 @@ export default function WagmiWallet() {
       );
     }
     return (
-      <div className="flex flex-col gap-4">
+      <>
         <p>{address}</p>
         <WalletBalance />
         <button className="btn-primary" onClick={() => disconnect()}>
           Disconnect Wallet
         </button>
-      </div>
+      </>
     );
   };
 
   return (
-    <div>
-      <h2>Wagmi</h2>
+    <div className="flex flex-col gap-4">
+      <h2>Connect Ethereum</h2>
       {renderWalletContent()}
     </div>
   );

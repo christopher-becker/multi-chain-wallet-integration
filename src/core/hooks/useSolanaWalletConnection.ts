@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletName } from "@solana/wallet-adapter-base";
+import { Adapter, WalletName } from "@solana/wallet-adapter-base";
 
 interface SolanaWalletHook {
   connectWallet: (walletName: WalletName) => Promise<void>;
@@ -9,7 +9,7 @@ interface SolanaWalletHook {
   address: string | null;
   balance: number | null;
   status: "connected" | "disconnected";
-  wallets: { adapter: { name: WalletName } }[];
+  wallets: { adapter: Adapter }[];
 }
 
 export function useSolanaWalletConnection(): SolanaWalletHook {
@@ -27,6 +27,12 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   //     setBalance(null);
   //   }
   // }, [publicKey, connected, connection]);
+
+  useEffect(() => {
+    if (connected) {
+      localStorage.setItem("APP_INIT_CONNECTED", "TRUE");
+    }
+  }, [connected]);
 
   const connectWallet = async (walletName: WalletName) => {
     try {

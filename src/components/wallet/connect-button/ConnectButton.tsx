@@ -14,7 +14,7 @@ export default function ConnectButton() {
     disconnect: solanaDisconnect,
   } = useSolanaWalletConnection();
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {/* Wagmi Button State */}
       <StateConnectButton
         address={address}
@@ -22,6 +22,7 @@ export default function ConnectButton() {
         coinIcon={<SiEthereum />}
         disconnect={disconnect}
         openModal={setIsWagmiOptionsModalVisible}
+        title={"Ethereum"}
       />
 
       {/* Solana Button State */}
@@ -31,6 +32,7 @@ export default function ConnectButton() {
         coinIcon={<SiSolana />}
         disconnect={solanaDisconnect}
         openModal={setIsSolanaOptionsModalVisible}
+        title={"Solana"}
       />
     </div>
   );

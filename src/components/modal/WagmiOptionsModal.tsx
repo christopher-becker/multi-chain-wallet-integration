@@ -6,17 +6,17 @@ import { useWalletConnection } from "../../core/hooks/useWalletConnection";
 
 export default function WagmiOptionsModal() {
   const { setIsWagmiOptionsModalVisible } = useModalStore((state) => state);
-  const { status } = useWalletConnection();
+  const { isConnected } = useWalletConnection();
 
   const handleCloseModal = () => {
     setIsWagmiOptionsModalVisible(false);
   };
 
   useEffect(() => {
-    if (status === "success") {
+    if (isConnected) {
       handleCloseModal();
     }
-  }, [status]);
+  }, [isConnected]);
 
   return (
     <BaseModal handle={handleCloseModal}>

@@ -8,7 +8,9 @@ export default function BasePage(props: BasePageProps) {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <Header />
-      <main className="flex-1">{props.children ?? <></>}</main>
+      <main className="flex-1 flex items-center justify-center">
+        <div>{props.children ?? <></>}</div>
+      </main>
       <Modals />
       <Footer />
     </div>

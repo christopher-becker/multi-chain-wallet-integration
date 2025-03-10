@@ -5,7 +5,7 @@ type BaseModalProps = React.PropsWithChildren<{
 export default function BaseModal(props: BaseModalProps) {
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-blue-500/50 z-10 backdrop-blur-xs"
+      className="fixed inset-0 flex items-center justify-center bg-gray-950/90 z-10 backdrop-blur-xs"
       onClick={props.handle}
       aria-modal="true"
       role="dialog"
@@ -18,7 +18,7 @@ export default function BaseModal(props: BaseModalProps) {
         ✕
       </button>
       <div
-        className="rounded-2xl bg-white p-6 min-w-[300px] relative"
+        className="rounded-2xl bg-gray-950 p-6 w-80 min-h-80 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {props.children}

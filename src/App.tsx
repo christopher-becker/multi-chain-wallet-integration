@@ -9,16 +9,18 @@ import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { createMemoryRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import GetStartedPage from "./pages/GetStartedPage";
 
 const routes = [
   { path: "/", element: <HomePage /> },
+  { path: "/get-started", element: <GetStartedPage /> },
   { path: "*", element: <NotFoundPage /> },
 ];
 
-const router = createMemoryRouter(routes);
+const router = createBrowserRouter(routes);
 
 function App() {
   const network = WalletAdapterNetwork.Mainnet;

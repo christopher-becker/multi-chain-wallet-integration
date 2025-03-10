@@ -13,8 +13,13 @@ export default function SolanaWallet() {
               key={wallet.adapter.name}
               onClick={() => connectWallet(wallet.adapter.name)}
               type="button"
-              className="btn-primary"
+              className="btn-secondary"
             >
+              <img
+                src={wallet.adapter.icon}
+                alt={wallet.adapter.name}
+                className="w-6 h-6"
+              />
               {wallet.adapter.name}
             </button>
           ))}
@@ -22,18 +27,18 @@ export default function SolanaWallet() {
       );
     }
     return (
-      <div className="flex flex-col gap-4">
+      <>
         <p>{address}</p>
         <button className="btn-primary" onClick={() => disconnect()}>
           Disconnect Wallet
         </button>
-      </div>
+      </>
     );
   };
 
   return (
-    <div>
-      <h2>Solana</h2>
+    <div className="flex flex-col gap-4">
+      <h2>Connect Solana</h2>
       {renderWalletContent()}
     </div>
   );
