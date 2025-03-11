@@ -11,7 +11,7 @@ export default function ChainListItem(props: { chain: ChainType }) {
         loading={"lazy"}
       />
       <div className="flex gap-2 w-full items-center">
-        <div className="flex gap-0 sm:gap-2 flex-col sm:flex-row w-full items-center">
+        <div className="flex gap-0 sm:gap-2 flex-col sm:flex-row w-full">
           <span className="font-bold">{props.chain.name}</span>
           <span className="uppercase text-gray-500">{props.chain.coin}</span>
         </div>
