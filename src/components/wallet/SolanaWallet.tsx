@@ -1,4 +1,4 @@
-import { useSolanaWalletConnection } from "../../core/hooks/useSolanaWalletConnection";
+import { useSolanaWallet } from "../../core/context/SolanaWalletConnection.context";
 
 export default function SolanaWallet() {
   const {
@@ -8,7 +8,7 @@ export default function SolanaWallet() {
     address,
     wallets,
     connecting,
-  } = useSolanaWalletConnection();
+  } = useSolanaWallet();
 
   const renderWalletContent = () => {
     if (!isConnected) {

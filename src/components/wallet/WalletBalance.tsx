@@ -1,8 +1,8 @@
 import { formatEther } from "viem";
-import { useWalletConnection } from "../../core/hooks/useWalletConnection";
+import { useEthWalletConnection } from "../../core/context/EthereumWalletConnection.context";
 
 export default function WalletBalance() {
-  const { balance } = useWalletConnection();
+  const { balance } = useEthWalletConnection();
   if (balance.isLoading) return <>Fetching balance ...</>;
   if (balance.error) return <>Error fetching balance.</>;
   const formattedBalance = balance.data?.value

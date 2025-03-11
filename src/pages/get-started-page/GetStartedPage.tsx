@@ -1,21 +1,16 @@
 import { Suspense } from "react";
-import { useSolanaWalletConnection } from "../../core/hooks/useSolanaWalletConnection";
-import { useWalletConnection } from "../../core/hooks/useWalletConnection";
 import BasePage from "../BasePage";
 import ChainOptions from "./components/chain-options/ChainOptions";
-import { useBitcoinWallet } from "../../core/context/BitcoinWallet.context";
+import { useWalletConnections } from "../../core/hooks/useWalletConnections";
 
 export default function GetStartedPage() {
-  const { isConnected } = useWalletConnection();
-  const { isConnected: isSolanaConnected } = useSolanaWalletConnection();
-  const { isConnected: isBitcoinConnected } = useBitcoinWallet();
-  const hasConnectedBefore = localStorage.getItem("APP_INIT_CONNECTED");
+  const { hasConnectedBefore, isCurrentlyConnected } = useWalletConnections();
   return (
     <BasePage>
       <div className="flex gap-12 items-center flex-col">
         <h1 className="text-4xl" data-testid="page-heading">
           {hasConnectedBefore
-            ? isConnected || isSolanaConnected || isBitcoinConnected
+            ? isCurrentlyConnected
               ? "You're connected!"
               : "Connect again!"
             : "Choose a chain"}

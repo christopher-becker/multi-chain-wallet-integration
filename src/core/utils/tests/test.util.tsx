@@ -14,6 +14,8 @@ import {
 import { config } from "../../../config";
 import { BitcoinWalletProvider } from "../../context/BitcoinWallet.context";
 import { BrowserRouter } from "react-router";
+import { EthWalletProvider } from "../../context/EthereumWalletConnection.context";
+import { SolanaWalletProvider } from "../../context/SolanaWalletConnection.context";
 
 const queryClient = new QueryClient();
 const network = WalletAdapterNetwork.Mainnet;
@@ -27,9 +29,13 @@ export const renderWithProviders = (ui: React.ReactElement) => {
       <QueryClientProvider client={queryClient}>
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets} autoConnect>
-            <BitcoinWalletProvider>
-              <BrowserRouter>{ui}</BrowserRouter>
-            </BitcoinWalletProvider>
+            <EthWalletProvider>
+              <SolanaWalletProvider>
+                <BitcoinWalletProvider>
+                  <BrowserRouter>{ui}</BrowserRouter>
+                </BitcoinWalletProvider>
+              </SolanaWalletProvider>
+            </EthWalletProvider>
           </WalletProvider>
         </ConnectionProvider>
       </QueryClientProvider>

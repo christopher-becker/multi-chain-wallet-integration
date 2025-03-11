@@ -1,11 +1,11 @@
-import { useWalletConnection } from "../../core/hooks/useWalletConnection";
+import { useEthWalletConnection } from "../../core/context/EthereumWalletConnection.context";
 import { DefaultWalletImage } from "../image/app-images/AppImages";
 import ImageWithFallback from "../image/image-with-fallback";
 import WalletBalance from "./WalletBalance";
 
 export default function WagmiWallet() {
   const { connect, disconnect, isConnected, address, connectors, isPending } =
-    useWalletConnection();
+    useEthWalletConnection();
 
   const renderWalletContent = () => {
     if (!isConnected) {

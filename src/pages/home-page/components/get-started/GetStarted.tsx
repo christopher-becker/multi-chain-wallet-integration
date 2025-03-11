@@ -1,13 +1,10 @@
 import { Link } from "react-router";
-import { useSolanaWalletConnection } from "../../../../core/hooks/useSolanaWalletConnection";
-import { useWalletConnection } from "../../../../core/hooks/useWalletConnection";
 import { ROUTES } from "../../../../core/constants/routes.const";
+import { useWalletConnections } from "../../../../core/hooks/useWalletConnections";
 
 export default function GetStarted() {
-  const { isConnected } = useWalletConnection();
-  const { isConnected: isSolanaConnected } = useSolanaWalletConnection();
-  const hasConnectedBefore = localStorage.getItem("APP_INIT_CONNECTED");
-  if (isConnected || isSolanaConnected) return null;
+  const { hasConnectedBefore, isCurrentlyConnected } = useWalletConnections();
+  if (isCurrentlyConnected) return null;
   return (
     <div className="w-80 flex flex-col gap-12 px-2">
       <h1>{hasConnectedBefore ? "Welcome back!" : "Get started!"}</h1>

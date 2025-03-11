@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import useModalStore from "../../core/stores/modals.store";
 import BaseModal from "./BaseModal";
-import { useSolanaWalletConnection } from "../../core/hooks/useSolanaWalletConnection";
 import SolanaWallet from "../wallet/SolanaWallet";
+import { useSolanaWallet } from "../../core/context/SolanaWalletConnection.context";
 
 export default function SolanaOptionsModal() {
   const { setIsSolanaOptionsModalVisible } = useModalStore((state) => state);
-  const { status } = useSolanaWalletConnection();
+  const { status } = useSolanaWallet();
 
   const handleCloseModal = () => {
     setIsSolanaOptionsModalVisible(false);

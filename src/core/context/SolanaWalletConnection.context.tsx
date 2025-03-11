@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  ReactNode,
+} from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Adapter, WalletName } from "@solana/wallet-adapter-base";
-import useStore from "../stores/store";
 import { Connection } from "@solana/web3.js";
+import useStore from "../stores/store";
 import { SOLANA_API } from "../constants/config.const";
 
-interface SolanaWalletHook {
+interface SolanaWalletContextType {
   connecting: boolean;
   connectWallet: (walletName: WalletName) => Promise<void>;
   disconnect: () => void;
@@ -16,7 +23,25 @@ interface SolanaWalletHook {
   wallets: { adapter: Adapter }[];
 }
 
-export function useSolanaWalletConnection(): SolanaWalletHook {
+const SolanaWalletContext = createContext<SolanaWalletContextType | null>(null);
+
+export const useSolanaWallet = () => {
+  const context = useContext(SolanaWalletContext);
+  if (!context) {
+    throw new Error(
+      "useSolanaWallet must be used within a SolanaWalletProvider"
+    );
+  }
+  return context;
+};
+
+interface SolanaWalletProviderProps {
+  children: ReactNode;
+}
+
+export const SolanaWalletProvider = ({
+  children,
+}: SolanaWalletProviderProps) => {
   const {
     publicKey,
     connected,
@@ -30,18 +55,13 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   const { fetchChains, setConnectedChains, removeConnectedChain } = useStore();
   const connectedChains = useStore((state) => state.connectedChains);
   const [balance, setBalance] = useState<number | null>(null);
-
-  // Create Solana connection object
   const connection = new Connection(SOLANA_API);
 
-  // Re-Visit check balance
   useEffect(() => {
     if (connected && publicKey) {
       connection
         .getBalance(publicKey)
-        .then((lamports) => {
-          setBalance(lamports / 1e9); // Convert from lamports to SOL
-        })
+        .then((lamports) => setBalance(lamports / 1e9))
         .catch((error) => {
           console.error("Failed to fetch balance:", error);
           setBalance(null);
@@ -54,9 +74,10 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   useEffect(() => {
     if (connected) {
       setConnectedChains("SVM");
-      localStorage.setItem("APP_INIT_CONNECTED", "TRUE");
+      localStorage.setItem("APP_INIT_SVM_CONNECTED", "TRUE");
     } else {
       removeConnectedChain("SVM");
+      localStorage.removeItem("APP_INIT_SVM_CONNECTED");
     }
   }, [connected]);
 
@@ -67,24 +88,32 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   const connectWallet = async (walletName: WalletName) => {
     try {
       select(walletName);
-      if (!wallet) {
-        return;
-      }
+      if (!wallet) return;
       await connect();
-      return;
     } catch (error) {
-      console.error(error);
+      console.error("Solana wallet connection failed:", error);
     }
   };
 
-  return {
-    connecting,
-    connectWallet,
-    disconnect,
-    isConnected: connected,
-    address: publicKey?.toBase58() || null,
-    balance,
-    status: connected ? "connected" : "disconnected",
-    wallets,
-  };
-}
+  const value: SolanaWalletContextType = useMemo(
+    () => ({
+      connecting,
+      connectWallet,
+      disconnect,
+      isConnected: connected,
+      address: publicKey?.toBase58() || null,
+      balance,
+      status: connected
+        ? "connected"
+        : ("disconnected" as "connected" | "disconnected"),
+      wallets,
+    }),
+    [connected, publicKey, balance, connecting]
+  );
+
+  return (
+    <SolanaWalletContext.Provider value={value}>
+      {children}
+    </SolanaWalletContext.Provider>
+  );
+};

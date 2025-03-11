@@ -2,9 +2,9 @@ import { SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
 import StateConnectButton from "./StateConnectButton";
 import WalletBalance from "../../../../components/wallet/WalletBalance";
 import useModalStore from "../../../../core/stores/modals.store";
-import { useWalletConnection } from "../../../../core/hooks/useWalletConnection";
-import { useSolanaWalletConnection } from "../../../../core/hooks/useSolanaWalletConnection";
 import { useBitcoinWallet } from "../../../../core/context/BitcoinWallet.context";
+import { useEthWalletConnection } from "../../../../core/context/EthereumWalletConnection.context";
+import { useSolanaWallet } from "../../../../core/context/SolanaWalletConnection.context";
 
 export default function ChainOptions() {
   const {
@@ -14,7 +14,7 @@ export default function ChainOptions() {
   } = useModalStore((store) => store);
 
   // ETHEREUM Connection
-  const { isConnected, address, disconnect } = useWalletConnection();
+  const { isConnected, address, disconnect } = useEthWalletConnection();
 
   // SOLANA Connection
   const {
@@ -22,7 +22,7 @@ export default function ChainOptions() {
     address: solanaAddress,
     disconnect: solanaDisconnect,
     balance: solanaBalance,
-  } = useSolanaWalletConnection();
+  } = useSolanaWallet();
 
   // BITCOIN Connection
   const {
