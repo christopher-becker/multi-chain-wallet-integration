@@ -3,6 +3,7 @@ import {
   useAccount,
   useBalance,
   UseBalanceReturnType,
+  useChainId,
   useConnect,
   useDisconnect,
 } from "wagmi";
@@ -32,10 +33,17 @@ export function useWalletConnection(): WalletConnectionHook {
     isPending,
   } = useConnect();
   const { disconnect } = useDisconnect();
-  const { fetchChains, setConnectedChains, connectedChains } = useStore();
+  const chainId = useChainId();
+  const {
+    fetchChains,
+    setConnectedChains,
+    connectedChains,
+    removeConnectedChain,
+  } = useStore();
 
   const balance = useBalance({
     address: address ?? undefined,
+    chainId,
     query: {
       enabled: !!address,
     },
@@ -46,7 +54,7 @@ export function useWalletConnection(): WalletConnectionHook {
       setConnectedChains("EVM");
       localStorage.setItem("APP_INIT_CONNECTED", "TRUE");
     } else {
-      useStore.getState().removeConnectedChain("EVM");
+      removeConnectedChain("EVM");
     }
   }, [address, isConnected]);
 
@@ -60,7 +68,6 @@ export function useWalletConnection(): WalletConnectionHook {
     disconnect,
     isConnected,
     address: address ?? null,
-    // Re-Visit to fix this TS error
     balance,
     connectors,
     error,

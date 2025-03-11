@@ -18,7 +18,7 @@ export default function BaseModal(props: BaseModalProps) {
         ✕
       </button>
       <div
-        className="rounded-2xl bg-gray-950 p-6 w-80 min-h-80 relative"
+        className="modal-body rounded-2xl bg-gray-950 p-6 w-80 min-h-80 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {props.children}

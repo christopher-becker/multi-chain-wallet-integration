@@ -1,4 +1,4 @@
-type ChainOptionButtonProps = {
+type ChainFilterButtonProps = {
   title: string;
   chain: string;
   selectedChain: string;
@@ -6,7 +6,7 @@ type ChainOptionButtonProps = {
   setSelectedChain: (chain: string) => void;
 };
 
-export default function ChainOptionButton(props: ChainOptionButtonProps) {
+export default function ChainFilterButton(props: ChainFilterButtonProps) {
   const buttonClass = `btn-secondary ${
     props.selectedChain.toLowerCase() == props.chain.toLowerCase() &&
     "!bg-gray-100 !text-gray-800"

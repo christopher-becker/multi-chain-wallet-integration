@@ -14,6 +14,17 @@ type MetamaskType = {
   rpcUrls: string[];
 };
 
+type NativeTokenType = {
+  address: string;
+  chainId: number;
+  symbol: string;
+  decimals: number;
+  name: string;
+  coinKey: string;
+  logoURI: string;
+  priceUSD: string;
+};
+
 export type ChainType = {
   chainType: string;
   coin: string;
@@ -25,7 +36,7 @@ export type ChainType = {
   metamask: MetamaskType;
   multicallAddress: string;
   name: string;
-  nativeToken: NativeCurrencyType;
+  nativeToken: NativeTokenType;
   permit2: string;
   permit2Proxy: string;
   relayerSupported: boolean;

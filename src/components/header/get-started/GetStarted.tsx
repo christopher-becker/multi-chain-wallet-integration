@@ -2,14 +2,16 @@ import { useSolanaWalletConnection } from "../../../core/hooks/useSolanaWalletCo
 import { useWalletConnection } from "../../../core/hooks/useWalletConnection";
 import { ROUTES } from "../../../core/constants/routes.const";
 import { Link } from "react-router";
-import { SiEthereum, SiSolana } from "react-icons/si";
+import { SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
 import WalletIcon from "../../wallet/WalletIcon";
+import { useBitcoinWallet } from "../../../core/context/BitcoinWallet.context";
 
 export default function GetStarted() {
   const { isConnected } = useWalletConnection();
   const { isConnected: isSolanaConnected } = useSolanaWalletConnection();
+  const { isConnected: isBitcoinConnected } = useBitcoinWallet();
   const hasConnectedBefore = localStorage.getItem("APP_INIT_CONNECTED");
-  if (!isConnected && !isSolanaConnected) {
+  if (!isConnected && !isSolanaConnected && !isBitcoinConnected) {
     return (
       <Link className="btn-primary" to={ROUTES.GET_STARTED}>
         {hasConnectedBefore ? "Connect" : "Get Started"}
@@ -18,7 +20,7 @@ export default function GetStarted() {
   }
   return (
     <Link className="btn-primary" to={ROUTES.GET_STARTED}>
-      Connected
+      Wallets
       <span className="flex">
         {isConnected && (
           <WalletIcon>
@@ -28,6 +30,11 @@ export default function GetStarted() {
         {isSolanaConnected && (
           <WalletIcon>
             <SiSolana />
+          </WalletIcon>
+        )}
+        {isBitcoinConnected && (
+          <WalletIcon>
+            <SiBitcoin />
           </WalletIcon>
         )}
       </span>

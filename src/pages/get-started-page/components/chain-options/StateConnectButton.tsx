@@ -1,9 +1,9 @@
-import { formatAddress } from "../../../core/utils/formatAddress.util";
-import WalletIcon from "../WalletIcon";
+import WalletIcon from "../../../../components/wallet/WalletIcon";
+import { formatAddress } from "../../../../core/utils/formatAddress.util";
 
 type StateConnectionButtonProps = {
   isConnected: boolean;
-  address: string | null;
+  address: string | null | undefined;
   openModal: (data: boolean) => void;
   disconnect: () => void;
   coinIcon: React.ReactNode;
@@ -15,9 +15,13 @@ export default function StateConnectButton(props: StateConnectionButtonProps) {
   return (
     <>
       {props.isConnected && props.address ? (
-        <div className="flex flex-col gap-4 p-4 rounded-3xl bg-gray-900/50 border border-white/5">
+        <div className="flex flex-col gap-4 p-4 rounded-3xl bg-gray-900/50 border border-white/5 relative">
           <div className="flex gap-4 items-center">
             <WalletIcon>{props.coinIcon}</WalletIcon>
+            <span className="relative flex size-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-100"></span>
+              <span className="relative inline-flex size-3 rounded-full bg-sky-500"></span>
+            </span>
             {formatAddress(props.address)}
           </div>
           <div>{props.balance}</div>

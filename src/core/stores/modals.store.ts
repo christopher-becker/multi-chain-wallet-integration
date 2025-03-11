@@ -7,6 +7,9 @@ interface ModalState {
   // Solana Modals state
   isSolanaOptionsModalVisible: boolean;
   setIsSolanaOptionsModalVisible: (data: boolean) => void;
+  // Bitcoin Modals state
+  isBitcoinOptionsModalVisible: boolean;
+  setIsBitcoinOptionsModalVisible: (data: boolean) => void;
 }
 
 const useModalStore = create<ModalState>((set) => ({
@@ -19,6 +22,11 @@ const useModalStore = create<ModalState>((set) => ({
   isSolanaOptionsModalVisible: false,
   setIsSolanaOptionsModalVisible: (data: boolean) =>
     set({ isSolanaOptionsModalVisible: data }),
+
+  // Bitcoin Modals
+  isBitcoinOptionsModalVisible: false,
+  setIsBitcoinOptionsModalVisible: (data: boolean) =>
+    set({ isBitcoinOptionsModalVisible: data }),
 }));
 
 export default useModalStore;

@@ -1,13 +1,12 @@
 import { useState } from "react";
 import useStore from "../../core/stores/store";
 import { ChainType } from "../../core/types/liFi.types";
-import ChainOptionButton from "./ChainOptionButton";
+import ChainFilterButton from "./ChainFilterButton";
+import ChainListItem from "./ChainListItem";
 
 export default function ChainList() {
   const { chains, error, fetchChains, connectedChains } = useStore();
   const [selectedChain, setSelectedChain] = useState<string>("all");
-
-  //   const { data: chains, isLoading, error } = useFetchChains();
 
   const isConnectedManyChains = connectedChains && connectedChains?.length > 1;
 
@@ -22,14 +21,14 @@ export default function ChainList() {
     );
 
   return (
-    <div className="flex flex-col gap-12 max-w-80 w-full">
+    <div className="flex flex-col gap-12 max-w-80 sm:max-w-2xl w-full">
       <h1>Token List</h1>
       {isConnectedManyChains && (
         <div className="flex gap-2 sm:gap-4 items-center">
           {isConnectedManyChains ? (
             <>
-              <span>Filter</span>
-              <ChainOptionButton
+              <span className="hidden sm:flex">Filter</span>
+              <ChainFilterButton
                 chain="all"
                 fetchChains={fetchChains}
                 selectedChain={selectedChain}
@@ -40,7 +39,7 @@ export default function ChainList() {
           ) : null}
 
           {connectedChains?.includes("EVM") && isConnectedManyChains && (
-            <ChainOptionButton
+            <ChainFilterButton
               chain="EVM"
               fetchChains={fetchChains}
               selectedChain={selectedChain}
@@ -49,7 +48,7 @@ export default function ChainList() {
             />
           )}
           {connectedChains?.includes("SVM") && isConnectedManyChains && (
-            <ChainOptionButton
+            <ChainFilterButton
               chain="SVM"
               fetchChains={fetchChains}
               selectedChain={selectedChain}
@@ -57,24 +56,20 @@ export default function ChainList() {
               title={"Solana"}
             />
           )}
+          {connectedChains?.includes("BTC") && isConnectedManyChains && (
+            <ChainFilterButton
+              chain="UTXO"
+              fetchChains={fetchChains}
+              selectedChain={selectedChain}
+              setSelectedChain={setSelectedChain}
+              title={"Bitcoin"}
+            />
+          )}
         </div>
       )}
       <ul className="flex flex-col gap-4">
         {chains?.chains.map((chain: ChainType) => (
-          <li key={chain.id} className="flex gap-4 items-center">
-            <img
-              className="h-12 w-12 rounded-full"
-              src={chain.logoURI}
-              alt={chain.name}
-              loading={"lazy"}
-            />
-            <div>
-              <div className="flex gap-2">
-                <span className="font-bold">{chain.name}</span>
-                <span className="uppercase text-gray-500">{chain.coin}</span>
-              </div>
-            </div>
-          </li>
+          <ChainListItem key={chain.id} chain={chain} />
         ))}
       </ul>
     </div>

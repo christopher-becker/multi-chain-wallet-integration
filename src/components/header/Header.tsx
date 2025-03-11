@@ -7,7 +7,7 @@ export default function Header() {
     <header className="bg-gray-950 border-b-[1px] border-b-gray-800 stick px-2">
       <nav className="flex gap-4 items-center py-2">
         <Link className="flex-1" to={ROUTES.HOME_PAGE}>
-          Home
+          Token List
         </Link>
         <GetStarted />
       </nav>

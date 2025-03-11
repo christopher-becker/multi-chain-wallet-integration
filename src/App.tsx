@@ -2,7 +2,7 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { useMemo } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl } from "@solana/web3.js";
 import {
@@ -10,13 +10,33 @@ import {
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import HomePage from "./pages/home-page/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
-import GetStartedPage from "./pages/GetStartedPage";
+
+import { BitcoinWalletProvider } from "./core/context/BitcoinWallet.context";
+import SuspensePage from "./pages/suspense-page/SuspensePage";
+
+const HomePage = lazy(() => import("./pages/home-page/HomePage"));
+const GetStartedPage = lazy(
+  () => import("./pages/get-started-page/GetStartedPage")
+);
 
 const routes = [
-  { path: "/", element: <HomePage /> },
-  { path: "/get-started", element: <GetStartedPage /> },
+  {
+    path: "/",
+    element: (
+      <Suspense fallback={<SuspensePage />}>
+        <HomePage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/get-started",
+    element: (
+      <Suspense fallback={<SuspensePage />}>
+        <GetStartedPage />
+      </Suspense>
+    ),
+  },
   { path: "*", element: <NotFoundPage /> },
 ];
 
@@ -33,7 +53,9 @@ function App() {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <RouterProvider router={router} />
+        <BitcoinWalletProvider>
+          <RouterProvider router={router} />
+        </BitcoinWalletProvider>
       </WalletProvider>
     </ConnectionProvider>
   );

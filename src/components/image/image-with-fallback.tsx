@@ -8,13 +8,9 @@ type ImageWithFallbackProps = {
 };
 
 export default function ImageWithFallback(props: ImageWithFallbackProps) {
-  console.log(props.src);
-
   const [imgSrc, setImgSrc] = useState(props.src);
 
   const handleError = () => {
-    console.log(14);
-
     setImgSrc(props.fallbackSrc);
   };
 

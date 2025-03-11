@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { LiFiChainsType } from "../types/liFi.types";
 import { getLiFiChains } from "../../api/liFiAPI";
 
-// Define your store with Zustand
 interface StoreState {
   connectedChains: string[] | undefined;
   setConnectedChains: (chainType: string) => void;
@@ -45,7 +44,9 @@ const useStore = create<StoreState>((set) => ({
         return;
       }
 
-      const data = await getLiFiChains(chain ?? connectedChains.join(","));
+      const data = await getLiFiChains(
+        chain ?? connectedChains.join(",").replace(/BTC/g, "UTXO")
+      );
       set({ chains: data, loading: false });
     } catch (err) {
       set({ loading: false, error: "An error occurred" });
