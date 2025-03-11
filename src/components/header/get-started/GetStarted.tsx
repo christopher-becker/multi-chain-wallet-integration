@@ -7,12 +7,15 @@ import WalletIcon from "../../wallet/WalletIcon";
 import { useBitcoinWallet } from "../../../core/context/BitcoinWallet.context";
 
 export default function GetStarted() {
-  const { isConnected } = useWalletConnection();
-  const { isConnected: isSolanaConnected } = useSolanaWalletConnection();
-  const { isConnected: isBitcoinConnected } = useBitcoinWallet();
-  const hasConnectedBefore = localStorage.getItem("APP_INIT_CONNECTED");
-  const isCurrentlyConnected =
-    isConnected || isSolanaConnected || isBitcoinConnected;
+  const connections = {
+    ethereum: useWalletConnection().isConnected,
+    solana: useSolanaWalletConnection().isConnected,
+    bitcoin: useBitcoinWallet().isConnected,
+  };
+
+  const isCurrentlyConnected = Object.values(connections).some(Boolean);
+  const hasConnectedBefore = !!localStorage.getItem("APP_INIT_CONNECTED");
+
   if (!isCurrentlyConnected) {
     return (
       <Link
@@ -32,20 +35,14 @@ export default function GetStarted() {
     >
       Wallets
       <span className="flex relative">
-        {isConnected && (
-          <WalletIcon>
-            <SiEthereum />
-          </WalletIcon>
-        )}
-        {isSolanaConnected && (
-          <WalletIcon>
-            <SiSolana />
-          </WalletIcon>
-        )}
-        {isBitcoinConnected && (
-          <WalletIcon>
-            <SiBitcoin />
-          </WalletIcon>
+        {Object.entries(connections).map(([chain, isConnected]) =>
+          isConnected ? (
+            <WalletIcon key={chain}>
+              {chain === "ethereum" && <SiEthereum />}
+              {chain === "solana" && <SiSolana />}
+              {chain === "bitcoin" && <SiBitcoin />}
+            </WalletIcon>
+          ) : null
         )}
       </span>
     </Link>

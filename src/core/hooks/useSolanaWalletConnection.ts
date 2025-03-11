@@ -3,6 +3,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { Adapter, WalletName } from "@solana/wallet-adapter-base";
 import useStore from "../stores/store";
 import { Connection } from "@solana/web3.js";
+import { SOLANA_API } from "../constants/config.const";
 
 interface SolanaWalletHook {
   connecting: boolean;
@@ -31,7 +32,7 @@ export function useSolanaWalletConnection(): SolanaWalletHook {
   const [balance, setBalance] = useState<number | null>(null);
 
   // Create Solana connection object
-  const connection = new Connection("https://api.devnet.solana.com");
+  const connection = new Connection(SOLANA_API);
 
   // Re-Visit check balance
   useEffect(() => {
