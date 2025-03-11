@@ -4,7 +4,7 @@ import { ROUTES } from "../../core/constants/routes.const";
 
 export default function Header() {
   return (
-    <header className="bg-gray-950 border-b-[1px] border-b-gray-800 stick px-2">
+    <header className="bg-gray-950 border-b-[1px] border-b-gray-800 stick px-2 sticky top-0 left-0">
       <nav className="flex gap-4 items-center py-2">
         <Link
           data-testid="header-title"
