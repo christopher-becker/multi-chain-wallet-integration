@@ -11,7 +11,9 @@ export default function GetStarted() {
   const { isConnected: isSolanaConnected } = useSolanaWalletConnection();
   const { isConnected: isBitcoinConnected } = useBitcoinWallet();
   const hasConnectedBefore = localStorage.getItem("APP_INIT_CONNECTED");
-  if (!isConnected && !isSolanaConnected && !isBitcoinConnected) {
+  const isCurrentlyConnected =
+    isConnected || isSolanaConnected || isBitcoinConnected;
+  if (!isCurrentlyConnected) {
     return (
       <Link className="btn-primary" to={ROUTES.GET_STARTED}>
         {hasConnectedBefore ? "Connect" : "Get Started"}
@@ -21,7 +23,7 @@ export default function GetStarted() {
   return (
     <Link className="btn-primary" to={ROUTES.GET_STARTED}>
       Wallets
-      <span className="flex">
+      <span className="flex relative">
         {isConnected && (
           <WalletIcon>
             <SiEthereum />

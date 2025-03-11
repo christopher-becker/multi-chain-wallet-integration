@@ -3,9 +3,10 @@ import useStore from "../../core/stores/store";
 import { ChainType } from "../../core/types/liFi.types";
 import ChainFilterButton from "./ChainFilterButton";
 import ChainListItem from "./ChainListItem";
+import ChainListskeleton from "../skeleton/ChainListSkeleton";
 
 export default function ChainList() {
-  const { chains, error, fetchChains, connectedChains } = useStore();
+  const { chains, error, fetchChains, connectedChains, loading } = useStore();
   const [selectedChain, setSelectedChain] = useState<string>("all");
 
   const isConnectedManyChains = connectedChains && connectedChains?.length > 1;
@@ -67,11 +68,15 @@ export default function ChainList() {
           )}
         </div>
       )}
-      <ul className="flex flex-col gap-4">
-        {chains?.chains.map((chain: ChainType) => (
-          <ChainListItem key={chain.id} chain={chain} />
-        ))}
-      </ul>
+      {loading ? (
+        <ChainListskeleton />
+      ) : (
+        <ul className="flex flex-col gap-4">
+          {chains?.chains.map((chain: ChainType) => (
+            <ChainListItem key={chain.id} chain={chain} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
