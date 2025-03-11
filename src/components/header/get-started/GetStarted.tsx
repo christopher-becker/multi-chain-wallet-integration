@@ -15,13 +15,21 @@ export default function GetStarted() {
     isConnected || isSolanaConnected || isBitcoinConnected;
   if (!isCurrentlyConnected) {
     return (
-      <Link className="btn-primary" to={ROUTES.GET_STARTED}>
+      <Link
+        className="btn-primary"
+        to={ROUTES.GET_STARTED}
+        data-testid="header-get-started-button"
+      >
         {hasConnectedBefore ? "Connect" : "Get Started"}
       </Link>
     );
   }
   return (
-    <Link className="btn-primary" to={ROUTES.GET_STARTED}>
+    <Link
+      className="btn-primary"
+      to={ROUTES.GET_STARTED}
+      data-testid="header-get-started-button"
+    >
       Wallets
       <span className="flex relative">
         {isConnected && (

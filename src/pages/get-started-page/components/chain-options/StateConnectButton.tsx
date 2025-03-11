@@ -34,6 +34,7 @@ export default function StateConnectButton(props: StateConnectionButtonProps) {
         <button
           onClick={() => props.openModal(true)}
           className="btn-secondary flex items-center gap-4"
+          data-testid="state-connect-button"
         >
           <WalletIcon>{props.coinIcon}</WalletIcon>
           {props.title}

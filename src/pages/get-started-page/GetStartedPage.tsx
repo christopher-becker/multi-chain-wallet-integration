@@ -13,7 +13,7 @@ export default function GetStartedPage() {
   return (
     <BasePage>
       <div className="flex gap-12 items-center flex-col">
-        <h1 className="text-4xl">
+        <h1 className="text-4xl" data-testid="page-heading">
           {hasConnectedBefore
             ? isConnected || isSolanaConnected || isBitcoinConnected
               ? "You're connected!"
