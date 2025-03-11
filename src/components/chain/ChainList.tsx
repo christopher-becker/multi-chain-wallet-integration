@@ -9,7 +9,8 @@ export default function ChainList() {
   const { chains, error, fetchChains, connectedChains, loading } = useStore();
   const [selectedChain, setSelectedChain] = useState<string>("all");
 
-  const isConnectedManyChains = connectedChains && connectedChains?.length > 1;
+  const isConnectedToManyChains =
+    connectedChains && connectedChains?.length > 1;
 
   if (error)
     return (
@@ -21,51 +22,29 @@ export default function ChainList() {
       </div>
     );
 
+  const chainFilters = [
+    { key: "all", chain: "all", title: "All" },
+    { key: "EVM", chain: "EVM", title: "Ethereum" },
+    { key: "SVM", chain: "SVM", title: "Solana" },
+    { key: "BTC", chain: "UTXO", title: "Bitcoin" },
+  ].filter(({ key }) => connectedChains?.includes(key) || key === "all");
+
   return (
     <div className="flex flex-col gap-12 max-w-80 sm:max-w-2xl w-full">
       <h1>Token List</h1>
-      {isConnectedManyChains && (
+      {isConnectedToManyChains && (
         <div className="flex gap-2 sm:gap-4 items-center">
-          {isConnectedManyChains ? (
-            <>
-              <span className="hidden sm:flex">Filter</span>
-              <ChainFilterButton
-                chain="all"
-                fetchChains={fetchChains}
-                selectedChain={selectedChain}
-                setSelectedChain={setSelectedChain}
-                title={"All"}
-              />
-            </>
-          ) : null}
-
-          {connectedChains?.includes("EVM") && isConnectedManyChains && (
+          <span className="hidden sm:flex">Filter</span>
+          {chainFilters.map(({ key, chain, title }) => (
             <ChainFilterButton
-              chain="EVM"
+              key={key}
+              chain={chain}
               fetchChains={fetchChains}
               selectedChain={selectedChain}
               setSelectedChain={setSelectedChain}
-              title={"Ethereum"}
+              title={title}
             />
-          )}
-          {connectedChains?.includes("SVM") && isConnectedManyChains && (
-            <ChainFilterButton
-              chain="SVM"
-              fetchChains={fetchChains}
-              selectedChain={selectedChain}
-              setSelectedChain={setSelectedChain}
-              title={"Solana"}
-            />
-          )}
-          {connectedChains?.includes("BTC") && isConnectedManyChains && (
-            <ChainFilterButton
-              chain="UTXO"
-              fetchChains={fetchChains}
-              selectedChain={selectedChain}
-              setSelectedChain={setSelectedChain}
-              title={"Bitcoin"}
-            />
-          )}
+          ))}
         </div>
       )}
       {loading ? (
