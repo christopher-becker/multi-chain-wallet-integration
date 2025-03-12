@@ -14,7 +14,7 @@ export default function GetStarted() {
           : "Connect your wallet and start exploring tokens."}
       </p>
       <Link className="btn-secondary w-fit" to={ROUTES.GET_STARTED}>
-        {hasConnectedBefore ? "Re-connect" : "Get Started"}
+        {hasConnectedBefore ? "Re-Connect" : "Get Started"}
       </Link>
     </div>
   );

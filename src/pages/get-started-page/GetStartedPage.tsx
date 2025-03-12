@@ -5,15 +5,17 @@ import { useWalletConnections } from "../../core/hooks/useWalletConnections";
 
 export default function GetStartedPage() {
   const { hasConnectedBefore, isCurrentlyConnected } = useWalletConnections();
+  const connectTitle = () => {
+    if (isCurrentlyConnected) {
+      return "Connected";
+    }
+    return hasConnectedBefore ? "Re-Connect!" : "Choose a chain";
+  };
   return (
     <BasePage>
-      <div className="flex gap-12 items-center flex-col">
+      <div className="flex gap-12 items-center flex-col w-80">
         <h1 className="text-4xl" data-testid="page-heading">
-          {hasConnectedBefore
-            ? isCurrentlyConnected
-              ? "You're connected!"
-              : "Connect again!"
-            : "Choose a chain"}
+          {connectTitle()}
         </h1>
         <Suspense fallback={<>Loading ...</>}>
           <ChainOptions />
