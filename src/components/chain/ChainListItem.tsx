@@ -17,8 +17,13 @@ export default function ChainListItem(props: { chain: ChainType }) {
       />
       <div className="flex gap-2 w-full items-center">
         <div className="flex flex-1 gap-0 sm:gap-2 flex-col sm:flex-row w-full">
-          <span className="font-bold">{props.chain.name}</span>
-          <span className="uppercase text-gray-500">{props.chain.coin}</span>
+          <span className="font-bold flex sm:flex-col items-center sm:items-start gap-1 sm:gap-0">
+            <span>{props.chain.name}</span>
+            <span className="uppercase text-gray-500 text-xs">
+              ({props.chain.coin})
+            </span>
+          </span>
+          <span className="uppercase text-gray-500">{props.chain.key}</span>
         </div>
         <TokenBalanceDisplay
           token={

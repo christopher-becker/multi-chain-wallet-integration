@@ -35,4 +35,28 @@ export const TOKENS = [
     symbol: "IMX",
     abi: ERC20_ABI,
   },
+  {
+    address: "0x6b175474e89094c44da98b954eedeac495271d0f",
+    title: "DAI Stablecoin",
+    symbol: "DAI",
+    abi: ERC20_ABI,
+  },
+  {
+    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606e48c",
+    title: "USDC Stablecoin",
+    symbol: "USDC",
+    abi: ERC20_ABI,
+  },
+  {
+    address: "0x8f33f87f8a71f9ed1f5bd456c142e18394bb3436",
+    title: "Scroll",
+    symbol: "scl",
+    abi: ERC20_ABI,
+  },
+  {
+    address: "0xeeb5bfe545af04cf9864a0a507ff0944047a254c",
+    title: "Blast",
+    symbol: "bls",
+    abi: ERC20_ABI,
+  },
 ];
