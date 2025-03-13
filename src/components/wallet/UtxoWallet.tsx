@@ -19,6 +19,7 @@ export default function UtxoWallet() {
             alt={"Bitcoin"}
             className="w-6 h-6 rounded-full bg-gray-100"
             fallbackSrc={DefaultWalletImage().props.src}
+            loading="lazy"
           />
           Connect
         </button>

@@ -1,3 +1,5 @@
+import { Address } from "viem";
+
 type NativeCurrencyType = {
   name: string;
   symbol: string;
@@ -45,4 +47,21 @@ export type ChainType = {
 
 export type LiFiChainsType = {
   chains: ChainType[];
+};
+
+export type TokenType = {
+  chainId: number;
+  address: Address;
+  symbol: string;
+  name: string;
+  decimals: number;
+  priceUSD: string;
+  coinKey: string;
+  logoURI: string;
+};
+
+export type TokensResponseType = {
+  tokens: {
+    [chainId: number]: TokenType[];
+  };
 };

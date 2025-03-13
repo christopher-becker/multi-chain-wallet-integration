@@ -15,18 +15,22 @@ import {
   useDisconnect,
   Connector,
 } from "wagmi";
-import { Address } from "viem";
+import { Address, Chain } from "viem";
 import useStore from "../stores/store";
+import { useChains } from "./Chains.context";
 
 interface WalletContextType {
   connect: (connector: Connector) => void;
   disconnect: () => void;
   isConnected: boolean;
-  address: Address | null;
+  address: Address | string | null;
   balance: UseBalanceReturnType;
+  connector: Connector | undefined;
   connectors: readonly Connector[];
   error: Error | null;
   isPending: boolean;
+  chain: Chain | undefined;
+  chainId: number;
 }
 
 const WalletContext = createContext<WalletContextType | null>(null);
@@ -46,7 +50,9 @@ interface EthWalletProviderProps {
 }
 
 export const EthWalletProvider = ({ children }: EthWalletProviderProps) => {
-  const { address, isConnected } = useAccount();
+  const { filterChains, setChainsData } = useChains();
+  const { address, isConnected, chain, connector } = useAccount();
+
   const { connect, connectors, error, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const chainId = useChainId();
@@ -60,12 +66,24 @@ export const EthWalletProvider = ({ children }: EthWalletProviderProps) => {
   });
 
   useEffect(() => {
+    if (chain)
+      filterChains({
+        isConnected: isConnected,
+        id: chain?.id,
+        symbol: chain?.nativeCurrency.symbol,
+        name: chain?.name,
+        address: address,
+      });
+  }, [chain, address]);
+
+  useEffect(() => {
     if (isConnected && address) {
       setConnectedChains("EVM");
       localStorage.setItem("APP_INIT_EVM_CONNECTED", "TRUE");
     } else {
       removeConnectedChain("EVM");
       localStorage.removeItem("APP_INIT_EVM_CONNECTED");
+      setChainsData(null);
     }
   }, [address, isConnected]);
 
@@ -77,16 +95,19 @@ export const EthWalletProvider = ({ children }: EthWalletProviderProps) => {
 
   const value = useMemo(
     () => ({
+      chainId,
+      chain,
       connect: (connector: Connector) => connect({ connector }),
       disconnect,
       isConnected,
       address: address ?? null,
       balance,
+      connector,
       connectors,
       error,
       isPending,
     }),
-    [isConnected, address, balance, error]
+    [isConnected, address, balance, error, chain]
   );
 
   return (

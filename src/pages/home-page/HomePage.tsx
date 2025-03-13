@@ -1,14 +1,14 @@
 import BasePage from "../BasePage";
 import ChainList from "../../components/chain/ChainList";
 import { Suspense } from "react";
-import useStore from "../../core/stores/store";
 import GetStarted from "./components/get-started/GetStarted";
+import { useWalletConnections } from "../../core/hooks/useWalletConnections";
 
 export default function HomePage() {
-  const { chains } = useStore();
+  const { isCurrentlyConnected } = useWalletConnections();
   return (
     <BasePage centerContent={false}>
-      {!!chains ? (
+      {isCurrentlyConnected ? (
         <Suspense fallback={<>Loading ...</>}>
           <ChainList />
         </Suspense>

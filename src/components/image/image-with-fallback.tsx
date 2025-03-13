@@ -5,6 +5,7 @@ type ImageWithFallbackProps = {
   alt: string;
   fallbackSrc: string;
   className: string;
+  loading: "eager" | "lazy";
 };
 
 export default function ImageWithFallback(props: ImageWithFallbackProps) {
@@ -20,6 +21,7 @@ export default function ImageWithFallback(props: ImageWithFallbackProps) {
       src={imgSrc ?? props.fallbackSrc}
       alt={props.alt}
       onError={handleError}
+      loading={props.loading}
     />
   );
 }

@@ -14,7 +14,7 @@ export default function ChainOptions() {
   } = useModalStore((store) => store);
 
   // ETHEREUM Connection
-  const { isConnected, address, disconnect } = useEthWalletConnection();
+  const { isConnected, address, disconnect, chain } = useEthWalletConnection();
 
   // SOLANA Connection
   const {
@@ -41,7 +41,7 @@ export default function ChainOptions() {
         coinIcon={<SiEthereum />}
         disconnect={disconnect}
         openModal={setIsWagmiOptionsModalVisible}
-        title={"Ethereum"}
+        title={chain?.name ?? "Ethereum"}
         balance={<WalletBalance />}
       />
 

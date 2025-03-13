@@ -1,8 +1,7 @@
 import { LIFI_API } from "../core/constants/config.const";
-import { LiFiChainsType } from "../core/types/liFi.types";
+import { TokensResponseType } from "../core/types/liFi.types";
 
-// spi.js
-export async function getLiFiChains(optionalChainTypes: string) {
+export async function getChainTokens(optionalChainTypes: string) {
   const options = {
     method: "GET",
     headers: {
@@ -12,13 +11,13 @@ export async function getLiFiChains(optionalChainTypes: string) {
 
   try {
     const response = await fetch(
-      `${LIFI_API}/chains?chainTypes=${optionalChainTypes}`,
+      `${LIFI_API}/tokens?chains=${optionalChainTypes}`,
       options
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-    const data: LiFiChainsType = await response.json();
+    const data: TokensResponseType = await response.json();
     return data;
   } catch (err) {
     console.error("Error fetching chains:", err);
