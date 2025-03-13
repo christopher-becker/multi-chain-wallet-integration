@@ -1,15 +1,15 @@
 import { create } from "zustand";
-import { LiFiChainsType } from "../types/liFi.types";
-import { getLiFiChains } from "../../api/liFiAPI";
+import { TokensResponseType } from "../types/liFi.types";
+import { getChainTokens } from "../../api/liFiAPI";
 
 interface StoreState {
   connectedChains: string[] | undefined;
   setConnectedChains: (chainType: string) => void;
   removeConnectedChain: (chainType: string) => void;
-  chains: LiFiChainsType | undefined | null;
+  chains: TokensResponseType | undefined | null;
   loading: boolean;
   error: string | null;
-  fetchChains: (chain?: string) => void;
+  fetchChains: (chain: string) => void;
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -35,18 +35,10 @@ const useStore = create<StoreState>((set) => ({
   chains: undefined,
   loading: false,
   error: null,
-  fetchChains: async (chain?: string) => {
+  fetchChains: async (chain: string) => {
     set({ loading: true, error: null });
     try {
-      const { connectedChains } = useStore.getState();
-      if (!connectedChains || connectedChains.length === 0) {
-        set({ chains: null, loading: false });
-        return;
-      }
-
-      const data = await getLiFiChains(
-        chain ?? connectedChains.join(",").replace(/BTC/g, "UTXO")
-      );
+      const data = await getChainTokens(chain);
       set({ chains: data, loading: false });
     } catch (err) {
       set({ loading: false, error: "An error occurred" });

@@ -36,8 +36,8 @@ export const TOKENS = [
     abi: ERC20_ABI,
   },
   {
-    address: "0x6b175474e89094c44da98b954eedeac495271d0f",
-    title: "DAI Stablecoin",
+    address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+    title: "DAI Stablecoin (POL)",
     symbol: "DAI",
     abi: ERC20_ABI,
   },

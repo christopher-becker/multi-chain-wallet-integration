@@ -1,12 +1,14 @@
 import { beforeAll, describe, expect, test } from "vitest";
 import { LIFI_API } from "../core/constants/config.const";
-import { ChainType } from "../core/types/liFi.types";
+import { TokenType } from "../core/types/liFi.types";
 
 const BEFORE_ALL_TIMEOUT = 20000;
-const CHAIN_TYPES = "SVM";
+const CHAIN_TYPES = "ETH";
 
 type BodyType = {
-  chains: ChainType[];
+  tokens: {
+    [key: string]: TokenType[];
+  };
 };
 
 describe("Request li.fi api token list", () => {
@@ -14,7 +16,7 @@ describe("Request li.fi api token list", () => {
   let body: BodyType;
 
   beforeAll(async () => {
-    response = await fetch(`${LIFI_API}/chains?chainTypes=${CHAIN_TYPES}`);
+    response = await fetch(`${LIFI_API}/tokens?chains=${CHAIN_TYPES}`);
     body = await response.json();
   }, BEFORE_ALL_TIMEOUT);
 
@@ -27,6 +29,6 @@ describe("Request li.fi api token list", () => {
   });
 
   test("The first object in array to have key", () => {
-    expect(body.chains[0].key).to.have.string("sol");
+    expect(body.tokens["1"][0].coinKey).to.have.string("ETH");
   });
 });

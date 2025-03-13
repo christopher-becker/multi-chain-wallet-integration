@@ -23,6 +23,7 @@ export default function WagmiWallet() {
                 alt={connector.name}
                 className="w-6 h-6 rounded-full bg-gray-100"
                 fallbackSrc={DefaultWalletImage().props.src}
+                loading="lazy"
               />
               {connector.name}
             </button>

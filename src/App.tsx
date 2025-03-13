@@ -16,6 +16,7 @@ import { BitcoinWalletProvider } from "./core/context/BitcoinWallet.context";
 import SuspensePage from "./pages/suspense-page/SuspensePage";
 import { SolanaWalletProvider } from "./core/context/SolanaWalletConnection.context";
 import { EthWalletProvider } from "./core/context/EthereumWalletConnection.context";
+import { ChainsProvider } from "./core/context/Chains.context";
 
 const HomePage = lazy(() => import("./pages/home-page/HomePage"));
 const GetStartedPage = lazy(
@@ -55,13 +56,15 @@ function App() {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <EthWalletProvider>
-          <SolanaWalletProvider>
-            <BitcoinWalletProvider>
-              <RouterProvider router={router} />
-            </BitcoinWalletProvider>
-          </SolanaWalletProvider>
-        </EthWalletProvider>
+        <ChainsProvider>
+          <EthWalletProvider>
+            <SolanaWalletProvider>
+              <BitcoinWalletProvider>
+                <RouterProvider router={router} />
+              </BitcoinWalletProvider>
+            </SolanaWalletProvider>
+          </EthWalletProvider>
+        </ChainsProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
