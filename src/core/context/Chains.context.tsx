@@ -54,7 +54,8 @@ export const ChainsProvider = ({ children }: ChainsProviderProps) => {
       const data = await getChainTokens(chain);
       setChains(data);
     } catch (err) {
-      setError("An error occurred");
+      setError("Unable to fetch token list");
+      setChains(null);
     } finally {
       setLoading(false);
     }

@@ -15,12 +15,11 @@ export async function getChainTokens(optionalChainTypes: string) {
       options
     );
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error("Network response was not ok.");
     }
     const data: TokensResponseType = await response.json();
     return data;
   } catch (err) {
-    console.error("Error fetching chains:", err);
-    throw err;
+    throw Error("Unable to fetch token list.");
   }
 }

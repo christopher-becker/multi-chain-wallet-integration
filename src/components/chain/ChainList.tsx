@@ -14,13 +14,6 @@ export default function ChainList() {
   const { chains, error, loading, selection, filterChains } = useChains();
   const { address } = useEthWalletConnection();
 
-  if (error)
-    return (
-      <div className="flex flex-col gap-4">
-        <h2>ErrorFetching chain.</h2>
-      </div>
-    );
-
   const [currentPagination, setCurrentPagination] = useState(PAGINATION_SIZE);
 
   return (
@@ -42,7 +35,7 @@ export default function ChainList() {
               )
           )}
         </div>
-        {!chains && (
+        {!error && !chains && (
           <div className="flex flex-col gap-4">
             <h2>Select a chain.</h2>
           </div>
@@ -52,8 +45,9 @@ export default function ChainList() {
         <ChainListskeleton />
       ) : (
         <>
-          {chains && Object.keys(chains.tokens || {}).length === 0 ? (
-            <p>No tokens found.</p>
+          {error ||
+          (chains && Object.keys(chains.tokens || {}).length === 0) ? (
+            <>{error ?? <p>No tokens found.</p>}</>
           ) : (
             <>
               {chains &&

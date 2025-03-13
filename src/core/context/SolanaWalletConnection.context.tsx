@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Adapter, WalletName } from "@solana/wallet-adapter-base";
-import { Connection } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import useStore from "../stores/store";
 import { SOLANA_API } from "../constants/config.const";
 import { useChains } from "./Chains.context";
@@ -62,7 +62,7 @@ export const SolanaWalletProvider = ({
     if (connected && publicKey) {
       connection
         .getBalance(publicKey)
-        .then((lamports) => setBalance(lamports / 1e9))
+        .then((lamports) => setBalance(lamports / LAMPORTS_PER_SOL))
         .catch((error) => {
           console.error("Failed to fetch balance:", error);
           setBalance(null);

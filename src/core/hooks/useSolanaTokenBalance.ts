@@ -1,12 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
 import { formatPrice } from "../../core/utils/formatPrice.util"; // Ensure you have this function
 import { TokenType } from "../types/liFi.types";
 import { SOLANA_API } from "../constants/config.const";
 
-const SOLANA_RPC_URL = SOLANA_API;
-const connection = new Connection(SOLANA_RPC_URL);
+const connection = new Connection(SOLANA_API);
 
 async function fetchSolanaBalance(
   token: string,
@@ -15,6 +14,13 @@ async function fetchSolanaBalance(
   try {
     const ownerPublicKey = new PublicKey(ownerAddress);
     const tokenPublicKey = new PublicKey(token);
+
+    // Check if the token is the native SOL token (system account)
+    if (token === "11111111111111111111111111111111") {
+      const balance = await connection.getBalance(ownerPublicKey);
+      const formattedBalance = balance / LAMPORTS_PER_SOL;
+      return formattedBalance.toString();
+    }
 
     // Get Account
     const tokenAccount = await getAssociatedTokenAddress(
