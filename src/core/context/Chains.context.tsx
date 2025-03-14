@@ -18,6 +18,7 @@ interface ChainsContextType {
   fetchChains: (chain: string) => void;
   selection: { chain: string; address: string } | null;
   filterChains: (chain: ConnectionType) => void;
+  resetChainsData: () => void;
 }
 
 const ChainsContext = createContext<ChainsContextType | null>(null);
@@ -73,6 +74,14 @@ export const ChainsProvider = ({ children }: ChainsProviderProps) => {
     }));
   }, []);
 
+  const resetChainsData = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      selection: null,
+      chains: null,
+    }));
+  }, []);
+
   useEffect(() => {
     if (state.selection) {
       fetchChains(state.selection.chain);
@@ -84,6 +93,7 @@ export const ChainsProvider = ({ children }: ChainsProviderProps) => {
       ...state,
       fetchChains,
       filterChains,
+      resetChainsData,
     }),
     [state, fetchChains, filterChains]
   );

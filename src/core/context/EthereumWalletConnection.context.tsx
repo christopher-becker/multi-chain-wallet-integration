@@ -50,7 +50,7 @@ interface EthWalletProviderProps {
 }
 
 export const EthWalletProvider = ({ children }: EthWalletProviderProps) => {
-  const { filterChains } = useChains();
+  const { filterChains, resetChainsData } = useChains();
   const { address, isConnected, chain, connector } = useAccount();
 
   const { connect, connectors, error, isPending } = useConnect();
@@ -83,6 +83,7 @@ export const EthWalletProvider = ({ children }: EthWalletProviderProps) => {
     } else {
       removeConnectedChain("EVM");
       localStorage.removeItem("APP_INIT_EVM_CONNECTED");
+      resetChainsData();
     }
   }, [address, isConnected]);
 

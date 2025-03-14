@@ -11,6 +11,7 @@ import { Adapter, WalletName } from "@solana/wallet-adapter-base";
 import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import useStore from "../stores/store";
 import { SOLANA_API } from "../constants/config.const";
+import { useChains } from "./Chains.context";
 
 interface SolanaWalletContextType {
   connecting: boolean;
@@ -55,6 +56,7 @@ export const SolanaWalletProvider = ({
   const { setConnectedChains, removeConnectedChain } = useStore();
   const [balance, setBalance] = useState<number | null>(null);
   const connection = new Connection(SOLANA_API);
+  const { resetChainsData } = useChains();
 
   useEffect(() => {
     if (connected && publicKey) {
@@ -77,6 +79,7 @@ export const SolanaWalletProvider = ({
     } else {
       removeConnectedChain("SVM");
       localStorage.removeItem("APP_INIT_SVM_CONNECTED");
+      resetChainsData();
     }
   }, [connected]);
 
