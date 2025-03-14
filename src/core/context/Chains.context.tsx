@@ -16,12 +16,8 @@ interface ChainsContextType {
   loading: boolean;
   error: string | null;
   fetchChains: (chain: string) => void;
-  selection: {
-    chain: string;
-    address: string | undefined;
-  } | null;
+  selection: { chain: string; address: string } | null;
   filterChains: (chain: ConnectionType) => void;
-  setChainsData: (data: TokensResponseType | null) => void;
 }
 
 const ChainsContext = createContext<ChainsContextType | null>(null);
@@ -39,66 +35,57 @@ interface ChainsProviderProps {
 }
 
 export const ChainsProvider = ({ children }: ChainsProviderProps) => {
-  const [chains, setChains] = useState<TokensResponseType | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selection, setSelection] = useState<{
-    chain: string;
-    address: string | undefined;
-  } | null>(null);
+  const [state, setState] = useState<{
+    chains: TokensResponseType | null;
+    loading: boolean;
+    error: string | null;
+    selection: { chain: string; address: string } | null;
+  }>({
+    chains: null,
+    loading: false,
+    error: null,
+    selection: null,
+  });
 
   const fetchChains = useCallback(async (chain: string) => {
-    setLoading(true);
-    setError(null);
+    setState((prev) => ({ ...prev, loading: true, error: null }));
     try {
       const data = await getChainTokens(chain);
-      setChains(data);
-    } catch (err) {
-      setError("Unable to fetch token list");
-      setChains(null);
+      setState((prev) => ({ ...prev, chains: data }));
+    } catch (error) {
+      setState((prev) => ({
+        ...prev,
+        error: "Unable to fetch token list",
+        chains: null,
+      }));
     } finally {
-      setLoading(false);
+      setState((prev) => ({ ...prev, loading: false }));
     }
   }, []);
 
-  const filterChains = useCallback(
-    (chain: ConnectionType) => {
-      if (chain.address && chain.symbol) {
-        setSelection({ chain: chain.symbol, address: chain.address });
-        fetchChains(chain.symbol);
-      }
-    },
-    [fetchChains]
-  );
-
-  const setChainsData = useCallback((data: TokensResponseType | null) => {
-    setChains(data);
+  const filterChains = useCallback((chain: ConnectionType) => {
+    setState((prev) => ({
+      ...prev,
+      selection:
+        chain.symbol && chain.address
+          ? { chain: chain.symbol, address: chain.address }
+          : null,
+    }));
   }, []);
 
   useEffect(() => {
-    if (!selection) return;
-    fetchChains(selection.chain);
-  }, [selection, fetchChains]);
+    if (state.selection) {
+      fetchChains(state.selection.chain);
+    }
+  }, [state.selection, fetchChains]);
 
   const value = useMemo(
     () => ({
-      chains,
-      loading,
-      error,
+      ...state,
       fetchChains,
-      selection,
       filterChains,
-      setChainsData,
     }),
-    [
-      chains,
-      loading,
-      error,
-      fetchChains,
-      selection,
-      filterChains,
-      setChainsData,
-    ]
+    [state, fetchChains, filterChains]
   );
 
   return (

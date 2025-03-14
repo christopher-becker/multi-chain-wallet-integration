@@ -35,9 +35,11 @@ export default function ChainList() {
               )
           )}
         </div>
-        {!error && !chains && (
+        {!chains && (
           <div className="flex flex-col gap-4">
-            <h2>Select a chain.</h2>
+            <h2>
+              {!!error ? "Error fetching chain tokens" : "Select a chain"}
+            </h2>
           </div>
         )}
       </div>
@@ -45,9 +47,8 @@ export default function ChainList() {
         <ChainListskeleton />
       ) : (
         <>
-          {error ||
-          (chains && Object.keys(chains.tokens || {}).length === 0) ? (
-            <>{error ?? <p>No tokens found.</p>}</>
+          {chains && Object.keys(chains.tokens || {}).length === 0 ? (
+            <p>No tokens found.</p>
           ) : (
             <>
               {chains &&

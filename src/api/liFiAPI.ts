@@ -2,17 +2,9 @@ import { LIFI_API } from "../core/constants/config.const";
 import { TokensResponseType } from "../core/types/liFi.types";
 
 export async function getChainTokens(optionalChainTypes: string) {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-    },
-  };
-
   try {
     const response = await fetch(
-      `${LIFI_API}/tokens?chains=${optionalChainTypes}`,
-      options
+      `${LIFI_API}/tokens?chains=${optionalChainTypes}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok.");
